@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_crud/main.dart';
 
+import '../widgets/add_todo_dialog.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -40,7 +42,10 @@ class _HomePageState extends State<HomePage> {
           ]),
       body: tabs[_selectedIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const AddTodoDialogWidget()),
         child: const Icon(Icons.add),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: Colors.black,

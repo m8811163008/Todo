@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_crud/provider/todos.dart';
 
 import 'pages/home.dart';
 
@@ -14,11 +15,15 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: title,
-      theme: ThemeData(
-          primarySwatch: Colors.pink, scaffoldBackgroundColor: Colors.grey),
-      home: const HomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => TodosProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+            primarySwatch: Colors.pink, scaffoldBackgroundColor: Colors.grey),
+        home: const HomePage(),
+      ),
     );
   }
 }
