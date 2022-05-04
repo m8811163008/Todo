@@ -2,8 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_crud/provider/todos.dart';
 
 import '../model/todo.dart';
+import '../utils.dart';
 
 class TodoWidget extends StatelessWidget {
   final Todo todo;
@@ -25,7 +28,7 @@ class TodoWidget extends StatelessWidget {
                 onPressed: (context) {},
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                icon: Icons.share,
+                icon: Icons.edit,
                 label: 'Edit',
               ),
             ],
@@ -34,7 +37,7 @@ class TodoWidget extends StatelessWidget {
             motion: ScrollMotion(),
             children: [
               SlidableAction(
-                onPressed: (context) {},
+                onPressed: onDeleteTodo,
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 icon: Icons.save,
@@ -56,7 +59,13 @@ class TodoWidget extends StatelessWidget {
             activeColor: Theme.of(context).primaryColor,
             checkColor: Colors.white,
             value: todo.isDone,
-            onChanged: (_) {},
+            onChanged: (_) {
+              final _provider =
+                  Provider.of<TodosProvider>(context, listen: false);
+              final bool todoStatus = _provider.toggleTodo(todo);
+              Utils.showSnackBar(context,
+                  todoStatus ? 'Completed Todo' : 'Todo is not completed');
+            },
           ),
           Expanded(
             child: Column(
@@ -80,5 +89,11 @@ class TodoWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onDeleteTodo(context) {
+    final _provider = Provider.of<TodosProvider>(context, listen: false);
+    _provider.deleteTodo(todo);
+    Utils.showSnackBar(context, 'Delete todo ${todo.title}');
   }
 }

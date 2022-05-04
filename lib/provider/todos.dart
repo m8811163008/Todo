@@ -11,4 +11,20 @@ class TodosProvider extends ChangeNotifier {
     '''),
   ];
   List<Todo> get todos => _todos.where((todo) => !todo.isDone).toList();
+  List<Todo> get completedTodos => _todos.where((todo) => todo.isDone).toList();
+  void addTodo(Todo todo) {
+    _todos.add(todo);
+    notifyListeners();
+  }
+
+  void deleteTodo(todo) {
+    _todos.remove(todo);
+    notifyListeners();
+  }
+
+  bool toggleTodo(Todo todo) {
+    todo.isDone = !todo.isDone;
+    notifyListeners();
+    return todo.isDone;
+  }
 }
