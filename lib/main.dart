@@ -5,7 +5,7 @@ import 'package:todo_crud/provider/todos.dart';
 import 'pages/home.dart';
 
 void main() {
-  runApp(TodoApp());
+  runApp(const TodoApp());
 }
 
 class TodoApp extends StatelessWidget {

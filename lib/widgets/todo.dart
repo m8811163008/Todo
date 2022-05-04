@@ -1,11 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_crud/provider/todos.dart';
 
 import '../model/todo.dart';
+import '../pages/edit_todo.dart';
 import '../utils.dart';
 
 class TodoWidget extends StatelessWidget {
@@ -15,37 +14,51 @@ class TodoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Slidable(
-          key: Key(todo.id ?? DateTime.now().toString()),
-          startActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            // All actions are defined in the children parameter.
-            children: [
-              // A SlidableAction can have an icon and/or a label.
-              SlidableAction(
-                onPressed: (context) {},
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                icon: Icons.edit,
-                label: 'Edit',
-              ),
-            ],
-          ),
-          endActionPane: ActionPane(
-            motion: ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: onDeleteTodo,
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                icon: Icons.save,
-                label: 'Delete',
-              ),
-            ],
-          ),
-          child: buildTodo(context)),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => EditTodoPage(todo: todo)));
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Slidable(
+            key: Key(todo.id ?? DateTime.now().toString()),
+            startActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              // All actions are defined in the children parameter.
+              children: [
+                // A SlidableAction can have an icon and/or a label.
+                SlidableAction(
+                  onPressed: (context) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditTodoPage(
+                          todo: todo,
+                        ),
+                      ),
+                    );
+                  },
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Edit',
+                ),
+              ],
+            ),
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: onDeleteTodo,
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  icon: Icons.save,
+                  label: 'Delete',
+                ),
+              ],
+            ),
+            child: buildTodo(context)),
+      ),
     );
   }
 
